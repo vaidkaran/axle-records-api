@@ -16,6 +16,9 @@
 # Ignore all gems
 /vendor/**/*
 
+# Ignore all vim temp files
+*.swp
+
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep

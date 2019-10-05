@@ -2,9 +2,20 @@
 
 class User < ActiveRecord::Base
   extend Devise::Models
+  include DeviseTokenAuth::Concerns::User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  include DeviseTokenAuth::Concerns::User
+
+  # Skip email confirmation
+  before_create :skip_confirmation!
+
+  # Associations
+  belongs_to :site_role
+  has_many :shop_users
+  has_many :shops, through: :shop_users
+
+  # Validations
+  validates :site_role, presence: true
 end
