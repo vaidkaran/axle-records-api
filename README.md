@@ -25,3 +25,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+
+##### Signing with google_oauth2 in locally running app
+http://127.0.0.1:3000/auth/google_oauth2
+##### Updating site_role_id for a user (requires auth headers)
+PATCH 127.0.0.1:3000/auth?site_role_id=<site_role_id>

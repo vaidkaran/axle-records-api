@@ -12,10 +12,7 @@ class User < ActiveRecord::Base
   before_create :skip_confirmation!
 
   # Associations
-  belongs_to :site_role
+  belongs_to :site_role, optional: true
   has_many :shop_users
   has_many :shops, through: :shop_users
-
-  # Validations
-  validates :site_role, presence: true
 end
