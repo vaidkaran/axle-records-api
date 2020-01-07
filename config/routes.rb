@@ -4,4 +4,8 @@ Rails.application.routes.draw do
    mount_devise_token_auth_for 'User', at: 'auth', controllers: {
      omniauth_callbacks: "overrides/omniauth_callbacks"
    }
+
+   resources :vehicle_categories, except: [:destroy]
+   resources :fuel_categories, :transmission_categories,
+     :vehicle_brands, :vehicle_models, :vehicle_variants
 end

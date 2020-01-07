@@ -1,0 +1,2 @@
+class TransmissionCategoriesController < ApplicationController
+end

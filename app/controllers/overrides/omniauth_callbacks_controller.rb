@@ -4,6 +4,7 @@
 # app/controllers/overrides/omniauth_callbacks_controller.rb
 module Overrides
   class OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+    skip_before_action :authenticate_user!, only: [:redirect_callbacks, :omniauth_success, :omniauth_failure]
     after_action :update_auth_header
 
     def assign_provider_attrs(user, auth_hash)
