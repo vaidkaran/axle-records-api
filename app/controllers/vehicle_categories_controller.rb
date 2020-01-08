@@ -1,16 +1,24 @@
 class VehicleCategoriesController < ApplicationController
-  before_action :require_site_admin, except: [:index]
+  before_action :ensure_site_admin, except: [:index]
 
   def index
     @vehicle_categories = VehicleCategory.all
     render json: @vehicle_categories, status: :ok
   end
 
-  # TODO: create endpoint with require_site_admin
-  # Also keep require_site_admin as a helper method
   def create
     @vehicle_category = VehicleCategory.create! vehicle_category_params
     render json: @vehicle_category, status: :created
+  end
+
+  def update
+    @vehicle_category = VehicleCategory.find params[:id]
+    if @vehicle_category.update_attributes(vehicle_category_params)
+      render json: @vehicle_category, status: :ok
+    else
+      render json: {error: 'Something went wrong. Could not update vehicle category'}, status: :internal_server_error
+    end
+
   end
 
 
@@ -19,9 +27,4 @@ class VehicleCategoriesController < ApplicationController
     params.permit(:name)
   end
 
-  def require_site_admin
-    unless(current_user.site_role.name === 'admin')
-      render json: {error: 'You need to be a site admin for performing this operation'}, status: :forbidden
-    end
-  end
 end
