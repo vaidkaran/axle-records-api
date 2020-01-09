@@ -1,6 +1,5 @@
 class Vehicle < ApplicationRecord
   belongs_to :user
-  belongs_to :vehicle_category
   belongs_to :fuel_category
   belongs_to :transmission_category
   belongs_to :vehicle_brand

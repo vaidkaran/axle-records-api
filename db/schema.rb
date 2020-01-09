@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_193339) do
+ActiveRecord::Schema.define(version: 2020_01_09_200754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,9 @@ ActiveRecord::Schema.define(version: 2020_01_06_193339) do
     t.bigint "vehicle_brand_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vehicle_category_id"
     t.index ["vehicle_brand_id"], name: "index_vehicle_models_on_vehicle_brand_id"
+    t.index ["vehicle_category_id"], name: "index_vehicle_models_on_vehicle_category_id"
   end
 
   create_table "vehicle_variants", force: :cascade do |t|
@@ -127,7 +129,6 @@ ActiveRecord::Schema.define(version: 2020_01_06_193339) do
 
   create_table "vehicles", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "vehicle_category_id"
     t.bigint "fuel_category_id"
     t.bigint "transmission_category_id"
     t.bigint "vehicle_brand_id"
@@ -135,11 +136,11 @@ ActiveRecord::Schema.define(version: 2020_01_06_193339) do
     t.bigint "vehicle_variant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["fuel_category_id"], name: "index_vehicles_on_fuel_category_id"
     t.index ["transmission_category_id"], name: "index_vehicles_on_transmission_category_id"
     t.index ["user_id"], name: "index_vehicles_on_user_id"
     t.index ["vehicle_brand_id"], name: "index_vehicles_on_vehicle_brand_id"
-    t.index ["vehicle_category_id"], name: "index_vehicles_on_vehicle_category_id"
     t.index ["vehicle_model_id"], name: "index_vehicles_on_vehicle_model_id"
     t.index ["vehicle_variant_id"], name: "index_vehicles_on_vehicle_variant_id"
   end
@@ -157,12 +158,12 @@ ActiveRecord::Schema.define(version: 2020_01_06_193339) do
   add_foreign_key "shops", "users"
   add_foreign_key "users", "site_roles"
   add_foreign_key "vehicle_models", "vehicle_brands"
+  add_foreign_key "vehicle_models", "vehicle_categories"
   add_foreign_key "vehicle_variants", "vehicle_models"
   add_foreign_key "vehicles", "fuel_categories"
   add_foreign_key "vehicles", "transmission_categories"
   add_foreign_key "vehicles", "users"
   add_foreign_key "vehicles", "vehicle_brands"
-  add_foreign_key "vehicles", "vehicle_categories"
   add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_variants"
 end

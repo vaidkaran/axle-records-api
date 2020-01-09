@@ -6,6 +6,10 @@ Rails.application.routes.draw do
    }
 
    resources :vehicle_categories, except: [:destroy]
-   resources :vehicle_brands, except: [:destroy]
-   resources :fuel_categories, :transmission_categories, :vehicle_models, :vehicle_variants
+   resources :vehicle_brands, except: [:destroy] do
+     resources :vehicle_models, except: [:destroy], shallow: true do
+       resources :vehicle_variants, except: [:destroy], shallow: true
+     end
+   end
+   resources :fuel_categories, :transmission_categories
 end
