@@ -11,5 +11,6 @@ Rails.application.routes.draw do
        resources :vehicle_variants, except: [:destroy], shallow: true
      end
    end
-   resources :fuel_categories, :transmission_categories
+   resources :fuel_categories, except: [:destroy]
+   resources :transmission_categories, except: [:destroy]
 end
