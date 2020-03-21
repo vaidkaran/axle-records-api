@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_200754) do
+ActiveRecord::Schema.define(version: 2020_03_14_134448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,17 +27,6 @@ ActiveRecord::Schema.define(version: 2020_01_09_200754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vehicle_id"], name: "index_registration_details_on_vehicle_id"
-  end
-
-  create_table "shop_users", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "shop_id"
-    t.bigint "vendor_role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["shop_id"], name: "index_shop_users_on_shop_id"
-    t.index ["user_id"], name: "index_shop_users_on_user_id"
-    t.index ["vendor_role_id"], name: "index_shop_users_on_vendor_role_id"
   end
 
   create_table "shops", force: :cascade do |t|
@@ -57,6 +46,13 @@ ActiveRecord::Schema.define(version: 2020_01_09_200754) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "site_roles_users", id: false, force: :cascade do |t|
+    t.bigint "site_role_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["site_role_id"], name: "index_site_roles_users_on_site_role_id"
+    t.index ["user_id"], name: "index_site_roles_users_on_user_id"
   end
 
   create_table "transmission_categories", force: :cascade do |t|
@@ -89,11 +85,9 @@ ActiveRecord::Schema.define(version: 2020_01_09_200754) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.bigint "site_role_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["site_role_id"], name: "index_users_on_site_role_id"
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
@@ -145,18 +139,36 @@ ActiveRecord::Schema.define(version: 2020_01_09_200754) do
     t.index ["vehicle_variant_id"], name: "index_vehicles_on_vehicle_variant_id"
   end
 
+  create_table "vendor_role_types", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "shop_id"
+    t.bigint "vendor_role_id"
+    t.index ["shop_id"], name: "index_vendor_role_types_on_shop_id"
+    t.index ["user_id"], name: "index_vendor_role_types_on_user_id"
+    t.index ["vendor_role_id"], name: "index_vendor_role_types_on_vendor_role_id"
+  end
+
   create_table "vendor_roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "vendor_shop_roles", force: :cascade do |t|
+    t.bigint "vendor_role_id"
+    t.bigint "shop_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_vendor_shop_roles_on_shop_id"
+    t.index ["user_id"], name: "index_vendor_shop_roles_on_user_id"
+    t.index ["vendor_role_id"], name: "index_vendor_shop_roles_on_vendor_role_id"
+  end
+
   add_foreign_key "registration_details", "vehicles"
-  add_foreign_key "shop_users", "shops"
-  add_foreign_key "shop_users", "users"
-  add_foreign_key "shop_users", "vendor_roles"
   add_foreign_key "shops", "users"
-  add_foreign_key "users", "site_roles"
   add_foreign_key "vehicle_models", "vehicle_brands"
   add_foreign_key "vehicle_models", "vehicle_categories"
   add_foreign_key "vehicle_variants", "vehicle_models"
@@ -166,4 +178,10 @@ ActiveRecord::Schema.define(version: 2020_01_09_200754) do
   add_foreign_key "vehicles", "vehicle_brands"
   add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_variants"
+  add_foreign_key "vendor_role_types", "shops"
+  add_foreign_key "vendor_role_types", "users"
+  add_foreign_key "vendor_role_types", "vendor_roles"
+  add_foreign_key "vendor_shop_roles", "shops"
+  add_foreign_key "vendor_shop_roles", "users"
+  add_foreign_key "vendor_shop_roles", "vendor_roles"
 end

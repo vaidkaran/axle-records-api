@@ -13,4 +13,6 @@ Rails.application.routes.draw do
    end
    resources :fuel_categories, except: [:destroy]
    resources :transmission_categories, except: [:destroy]
+   get :add_site_role, to: 'user_site_roles#add_role'
+   get :delete_site_role, to: 'user_site_roles#delete_role'
 end
