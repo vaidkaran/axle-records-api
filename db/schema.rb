@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_134448) do
+ActiveRecord::Schema.define(version: 2020_03_22_070833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,17 +139,6 @@ ActiveRecord::Schema.define(version: 2020_03_14_134448) do
     t.index ["vehicle_variant_id"], name: "index_vehicles_on_vehicle_variant_id"
   end
 
-  create_table "vendor_role_types", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "shop_id"
-    t.bigint "vendor_role_id"
-    t.index ["shop_id"], name: "index_vendor_role_types_on_shop_id"
-    t.index ["user_id"], name: "index_vendor_role_types_on_user_id"
-    t.index ["vendor_role_id"], name: "index_vendor_role_types_on_vendor_role_id"
-  end
-
   create_table "vendor_roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -178,9 +167,6 @@ ActiveRecord::Schema.define(version: 2020_03_14_134448) do
   add_foreign_key "vehicles", "vehicle_brands"
   add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_variants"
-  add_foreign_key "vendor_role_types", "shops"
-  add_foreign_key "vendor_role_types", "users"
-  add_foreign_key "vendor_role_types", "vendor_roles"
   add_foreign_key "vendor_shop_roles", "shops"
   add_foreign_key "vendor_shop_roles", "users"
   add_foreign_key "vendor_shop_roles", "vendor_roles"
