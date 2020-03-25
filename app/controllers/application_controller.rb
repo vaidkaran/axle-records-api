@@ -42,4 +42,28 @@ class ApplicationController < ActionController::API
       render json: {error: 'Only site admins can perform this operation'}, status: :forbidden
     end
   end
+
+  def ensure_vendor
+    unless(current_user.site_roles.include? SiteRole.find_by(name: :vendor))
+      render json: {error: 'Only vendors can perform this operation'}, status: :forbidden
+    end
+  end
+
+  def ensure_shop_admin(shop_id)
+    is_shop_admin = current_user.vendor_shop_roles.where(shop_id: shop_id)
+                                              .where(vendor_role_id: VendorRole.find_by(name: :admin).id)
+                                              .exists?
+    unless(is_shop_admin)
+      render json: {error: 'Only shop admins can perform this operation'}, status: :forbidden
+    end
+  end
+
+  def ensure_shop_member(shop_id)
+    vendor_for_shop = current_user.vendor_shop_roles.where(shop_id: shop_id)
+                                              .exists?
+    unless(vendor_for_shop)
+      render json: {error: 'Only vendors associated with this shop can perform this operation'}, status: :forbidden
+    end
+  end
+
 end
