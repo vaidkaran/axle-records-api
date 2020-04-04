@@ -2,8 +2,8 @@ class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :authenticate_user!
-  before_action :ensure_site_role_present, unless: :oauth_user_new_or_update
+  before_action :authenticate_user!, except: :google_sign_in
+  before_action :ensure_site_role_present, unless: :oauth_user_new_or_update, except: :google_sign_in
 
 
   protected
