@@ -1,11 +1,25 @@
 class UserSiteRolesController < ApplicationController
   def add_role
     site_role = SiteRole.find(params[:site_role_id])
-    if(current_user.site_roles.include?(site_role))
+    user = current_user
+
+    if(site_role.name == 'admin')
+      if(current_user.site_roles.include? SiteRole.find_by(name: :admin))
+        if !params[:user_id].nil?
+          user = User.find(params[:user_id])
+        end
+      else
+        render json: {message: "You need to be a site admin to make someone a site admin"}, status: :ok
+        return
+      end
+    end
+
+    if(user.site_roles.include?(site_role))
       render json: {message: "User is already a #{site_role.name}"}, status: :ok
       return
     end
-    current_user.site_roles << site_role
+
+    user.site_roles << site_role
     render json: {message: "User added as #{site_role.name}"}, status: :created
   end
 
