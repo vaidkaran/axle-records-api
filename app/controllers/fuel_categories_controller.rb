@@ -8,7 +8,6 @@ class FuelCategoriesController < ApplicationController
 
   def create
     @fuel_category = FuelCategory.create! fuel_category_params
-    require 'pry'; binding.pry
     render json: @fuel_category, status: :created
   end
 
