@@ -28,4 +28,12 @@ class UserSiteRolesController < ApplicationController
     current_user.site_roles.find(site_role.id).delete
     render json: {message: "User is no longer #{site_role.name}"}, status: :ok
   end
+
+  def show_roles
+    user = current_user
+    if (params[:user_id] && current_user.site_roles.include?(SiteRole.find_by(name: :admin)))
+      user = User.find(params[:user_id])
+    end
+    render json: user.site_roles, status: :ok
+  end
 end
