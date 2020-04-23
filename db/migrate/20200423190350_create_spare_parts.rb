@@ -1,0 +1,10 @@
+class CreateSpareParts < ActiveRecord::Migration[5.2]
+  def change
+    create_table :spare_parts do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
