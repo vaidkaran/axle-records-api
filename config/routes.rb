@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
    get :add_site_role, to: 'user_site_roles#add_role'
    get :delete_site_role, to: 'user_site_roles#delete_role'
+   get :show_user_roles, to: 'user_site_roles#show_roles'
+
 
    if Rails.env.development? || Rails.env.test?
      get :google_sign_in, to: 'auth#google_sign_in'
