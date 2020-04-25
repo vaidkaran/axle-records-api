@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_190350) do
+ActiveRecord::Schema.define(version: 2020_04_24_183247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,20 @@ ActiveRecord::Schema.define(version: 2020_04_23_190350) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "job_profiles", force: :cascade do |t|
+    t.decimal "price", precision: 7, scale: 2
+    t.integer "estimatedTimeInHrs"
+    t.integer "estimatedTimeInMins"
+    t.bigint "shop_id"
+    t.bigint "vehicle_variant_id"
+    t.bigint "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_job_profiles_on_job_id"
+    t.index ["shop_id"], name: "index_job_profiles_on_shop_id"
+    t.index ["vehicle_variant_id"], name: "index_job_profiles_on_vehicle_variant_id"
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -170,6 +184,9 @@ ActiveRecord::Schema.define(version: 2020_04_23_190350) do
     t.index ["vendor_role_id"], name: "index_vendor_shop_roles_on_vendor_role_id"
   end
 
+  add_foreign_key "job_profiles", "jobs"
+  add_foreign_key "job_profiles", "shops"
+  add_foreign_key "job_profiles", "vehicle_variants"
   add_foreign_key "registration_details", "vehicles"
   add_foreign_key "shops", "users"
   add_foreign_key "vehicle_models", "vehicle_brands"

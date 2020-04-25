@@ -11,6 +11,7 @@ Rails.application.routes.draw do
        resources :vehicle_variants, except: [:destroy], shallow: true
      end
    end
+   resources :job_profiles
    resources :jobs, except: [:destroy]
    resources :spare_parts, except: [:destroy]
    resources :fuel_categories, except: [:destroy]
