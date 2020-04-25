@@ -2,7 +2,7 @@ class JobProfilesController < ApplicationController
   before_action -> {ensure_shop_admin params[:shop_id]}, only: [:create, :destroy, :update]
 
   def index
-    @job_profiles = JobProfile.where(job_profile_params)
+    @job_profiles = JobProfile.where(job_profile_search_params)
     render json: @job_profiles
   end
 
