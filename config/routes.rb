@@ -12,6 +12,7 @@ Rails.application.routes.draw do
      end
    end
    resources :job_profiles
+   resources :spare_part_profiles
    resources :jobs, except: [:destroy]
    resources :spare_parts, except: [:destroy]
    resources :fuel_categories, except: [:destroy]

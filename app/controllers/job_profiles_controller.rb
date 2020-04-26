@@ -1,5 +1,6 @@
 class JobProfilesController < ApplicationController
-  before_action -> {ensure_shop_admin params[:shop_id]}, only: [:create, :destroy, :update]
+  before_action -> {ensure_shop_admin params[:shop_id]}, only: [:create, :update]
+  before_action -> {ensure_shop_admin get_shop_id_in_destroy}, only: [:destroy]
 
   def index
     @job_profiles = JobProfile.where(job_profile_search_params)
@@ -38,5 +39,10 @@ class JobProfilesController < ApplicationController
   def job_profile_params
     params.permit(:shop_id, :job_id, :vehicle_variant_id, :price,
                   :estimatedTimeInMins, :estimatedTimeInHrs)
+  end
+
+  def get_shop_id_in_destroy
+    @job_profile = JobProfile.find params[:id]
+    return @job_profile.shop_id
   end
 end
