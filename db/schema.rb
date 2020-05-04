@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_091752) do
+ActiveRecord::Schema.define(version: 2020_05_04_195818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,11 +35,44 @@ ActiveRecord::Schema.define(version: 2020_05_03_091752) do
     t.index ["vehicle_variant_id"], name: "index_job_profiles_on_vehicle_variant_id"
   end
 
+  create_table "job_trackers", force: :cascade do |t|
+    t.bigint "jobsheet_id"
+    t.bigint "job_profile_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_profile_id"], name: "index_job_trackers_on_job_profile_id"
+    t.index ["jobsheet_id"], name: "index_job_trackers_on_jobsheet_id"
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "jobsheet_state_trackers", force: :cascade do |t|
+    t.bigint "jobsheet_id"
+    t.bigint "jobsheet_state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["jobsheet_id"], name: "index_jobsheet_state_trackers_on_jobsheet_id"
+    t.index ["jobsheet_state_id"], name: "index_jobsheet_state_trackers_on_jobsheet_state_id"
+  end
+
+  create_table "jobsheet_states", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "jobsheets", force: :cascade do |t|
+    t.bigint "vehicle_id"
+    t.bigint "shop_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_jobsheets_on_shop_id"
+    t.index ["vehicle_id"], name: "index_jobsheets_on_vehicle_id"
   end
 
   create_table "registration_details", force: :cascade do |t|
@@ -199,6 +232,12 @@ ActiveRecord::Schema.define(version: 2020_05_03_091752) do
   add_foreign_key "job_profiles", "jobs"
   add_foreign_key "job_profiles", "shops"
   add_foreign_key "job_profiles", "vehicle_variants"
+  add_foreign_key "job_trackers", "job_profiles"
+  add_foreign_key "job_trackers", "jobsheets"
+  add_foreign_key "jobsheet_state_trackers", "jobsheet_states"
+  add_foreign_key "jobsheet_state_trackers", "jobsheets"
+  add_foreign_key "jobsheets", "shops"
+  add_foreign_key "jobsheets", "vehicles"
   add_foreign_key "registration_details", "vehicles"
   add_foreign_key "shops", "users"
   add_foreign_key "spare_part_profiles", "shops"
