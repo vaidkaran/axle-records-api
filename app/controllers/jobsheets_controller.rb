@@ -9,7 +9,7 @@ class JobsheetsController < ApplicationController
 
   def show
     @jobsheet = Jobsheet.find(params[:id])
-    render json: @jobsheet, include: {jobsheet_state_trackers: {include: :jobsheet_state}}, status: :ok
+    render json: @jobsheet, include: [{jobsheet_state_trackers: {include: :jobsheet_state}}, :job_trackers], status: :ok
   end
 
   def create
@@ -19,7 +19,7 @@ class JobsheetsController < ApplicationController
         jobsheet_state_id: JobsheetState.find_by(name: :open).id
       )
     end
-    render json: @jobsheet.jobsheet_state_trackers, status: :created
+    render json: @jobsheet, include: :jobsheet_state_trackers, status: :created
   end
 
   def set_state
