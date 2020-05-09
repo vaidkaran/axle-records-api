@@ -18,7 +18,13 @@ Rails.application.routes.draw do
    resources :fuel_categories, except: [:destroy]
    resources :transmission_categories, except: [:destroy]
    resources :vendor_roles, except: [:destroy]
-   resources :shops
+
+   # shops
+   resources :shops do
+     resources :jobsheets, only: [:index, :show, :create]
+     get 'jobsheets/:id/set_state', to: 'jobsheets#set_state'
+     get 'jobsheets/:id/add_job', to: 'jobsheets#add_job'
+   end
    scope :shops do
      get ':id/add_vendor', to: 'shops#add_vendor'
      get ':id/vendors', to: 'shops#vendors'
