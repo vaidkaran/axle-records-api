@@ -19,6 +19,11 @@ Rails.application.routes.draw do
    resources :transmission_categories, except: [:destroy]
    resources :vendor_roles, except: [:destroy]
 
+   # bills
+   get 'jobsheets/:jobsheet_id/bills', to: 'bills#index'
+   get 'jobsheets/:jobsheet_id/bills/generate', to: 'bills#generate'
+   delete 'jobsheets/:jobsheet_id/bills', to: 'bills#destroy'
+
    # shops
    resources :shops do
      resources :jobsheets, only: [:index, :show, :create]

@@ -66,4 +66,9 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def ensure_shop_member_from_jobsheet(jobsheet_id)
+    jobsheet = Jobsheet.find(jobsheet_id)
+    ensure_shop_member(jobsheet.shop_id)
+  end
+
 end

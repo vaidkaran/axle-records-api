@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_195818) do
+ActiveRecord::Schema.define(version: 2020_09_09_081307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bills", force: :cascade do |t|
+    t.decimal "grand_total", precision: 7, scale: 2
+    t.bigint "jobsheet_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "item_total", precision: 7, scale: 2
+    t.index ["jobsheet_id"], name: "index_bills_on_jobsheet_id"
+  end
 
   create_table "fuel_categories", force: :cascade do |t|
     t.string "name"
@@ -93,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_195818) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "tax_percent"
     t.index ["user_id"], name: "index_shops_on_user_id"
   end
 
@@ -229,6 +239,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_195818) do
     t.index ["vendor_role_id"], name: "index_vendor_shop_roles_on_vendor_role_id"
   end
 
+  add_foreign_key "bills", "jobsheets"
   add_foreign_key "job_profiles", "jobs"
   add_foreign_key "job_profiles", "shops"
   add_foreign_key "job_profiles", "vehicle_variants"

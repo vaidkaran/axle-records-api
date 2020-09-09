@@ -90,6 +90,6 @@ class ShopsController < ApplicationController
 
   private
   def shop_params
-    params.permit(:name)
+    params.permit(:name, :tax_percent, :address, :city, :state, :pin, :country)
   end
 end
