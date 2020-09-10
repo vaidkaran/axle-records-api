@@ -2,9 +2,6 @@ class BillsController < ApplicationController
   before_action :ensure_vendor
   before_action -> {ensure_shop_member_from_jobsheet params[:jobsheet_id]}
 
-  #find out how to include tax in the json response
-  # and then add it in index and generate methods
-  #
   def index
     jobsheet = Jobsheet.find(params[:jobsheet_id])
     render json: jobsheet.bill
@@ -21,9 +18,10 @@ class BillsController < ApplicationController
     jobsheet.job_trackers.each do |job_tracker|
       item_total += job_tracker.job_profile.price
     end
-    bill = jobsheet.create_bill!({item_total: total_price})
     tax_percent = jobsheet.shop.tax_percent
-    grand_total = item_total * (100 + tax_percent)
+    grand_total = (item_total * (100+tax_percent))/100
+
+    bill = jobsheet.create_bill!({item_total: item_total, grand_total: grand_total})
     render json: bill
   end
 
