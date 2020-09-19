@@ -18,6 +18,7 @@ Rails.application.routes.draw do
    resources :fuel_categories, except: [:destroy]
    resources :transmission_categories, except: [:destroy]
    resources :vendor_roles, except: [:destroy]
+   resources :vehicles
 
    # bills
    get 'jobsheets/:jobsheet_id/bills', to: 'bills#index'

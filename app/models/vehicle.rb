@@ -6,4 +6,9 @@ class Vehicle < ApplicationRecord
 
   has_one :registration_detail
   has_many :jobsheets
+
+  validates :user, presence: true
+  validates :vehicle_brand, presence: true
+  validates :vehicle_model, presence: true
+  validates :vehicle_variant, presence: true
 end

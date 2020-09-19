@@ -14,4 +14,5 @@ class User < ActiveRecord::Base
   # Associations
   has_and_belongs_to_many :site_roles, optional: true
   has_many :vendor_shop_roles
+  has_many :vehicles
 end
