@@ -4,9 +4,14 @@ class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!, except: :google_sign_in
   before_action :ensure_site_role_present, unless: :oauth_user_new_or_update, except: :google_sign_in
+  before_action :disable_omniauth_mock, if: -> {Rails.env.development? || Rails.env.test?}, except: :google_sign_in
 
 
   protected
+
+  def disable_omniauth_mock
+    OmniAuth.config.test_mode = false
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:account_update, keys: [:password, :current_password])
