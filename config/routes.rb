@@ -5,6 +5,7 @@ Rails.application.routes.draw do
      omniauth_callbacks: "overrides/omniauth_callbacks"
    }
 
+   get :sign_in, to: 'auth#sign_in'
    resources :vehicle_categories, except: [:destroy]
    resources :vehicle_brands, except: [:destroy] do
      resources :vehicle_models, except: [:destroy], shallow: true do

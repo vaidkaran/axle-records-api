@@ -1,4 +1,5 @@
 class AuthController < ApplicationController
+  include ActionController::Cookies
   def google_sign_in
     unique_string = Time.now.strftime("%y%d%m%d%H%M%6N")
     email_prefix = params[:email_prefix] || 'test'
@@ -9,5 +10,10 @@ class AuthController < ApplicationController
                                      name: 'Test User'}})
 
     redirect_to '/auth/google_oauth2' and return
+  end
+
+  def sign_in
+    cookies[:app_id] = params[:app_id]
+    redirect_to '/auth/google_oauth2'
   end
 end
