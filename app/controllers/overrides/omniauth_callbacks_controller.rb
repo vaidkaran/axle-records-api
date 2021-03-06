@@ -20,8 +20,9 @@ module Overrides
     end
 
     def render_data_or_redirect(message, data, user_data = {})
+      appUrl = 'exp://127.0.0.1:19000'
       if cookies[:app_id]==='react_native' && message==='deliverCredentials'
-        redirect_to "exp://my-app?auth_token=#{@auth_params[:auth_token]}&client_id=#{@auth_params[:client_id]}&
+        redirect_to "#{appUrl}?auth_token=#{@auth_params[:auth_token]}&client_id=#{@auth_params[:client_id]}&
                       uid=#{@auth_params[:uid]}&expiry=#{@auth_params[:expiry]}"
       else
         super(message, data, user_data = {})
