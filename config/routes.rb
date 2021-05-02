@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # user
+  post 'users', to: 'users#create_or_sign_in'
+
   resources :vehicle_categories, except: [:destroy]
   resources :vehicle_brands, except: [:destroy] do
     resources :vehicle_models, except: [:destroy], shallow: true do
