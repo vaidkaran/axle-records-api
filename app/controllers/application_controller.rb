@@ -1,8 +1,10 @@
 require 'httparty'
 require 'jwt'
 require 'helpers/current_user'
+require 'helpers/application_controller_helper'
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
+  include ApplicationControllerHelper
 
   before_action :authenticate_user!
   before_action :ensure_site_role_present
@@ -28,6 +30,10 @@ class ApplicationController < ActionController::API
     token_issuer = 'https://securetoken.google.com/axle-records-firebase'
 
     if idtoken.present?
+      # if (rails_env==qa || rails_env==dev) && params[:test_mode]==true
+      #   decoded_info = JWT.decode(idtoken, nil, false)[0]
+      #   return get_user_params_from_decoded_token(decoded_info)
+      # end
       kid = JWT.decode(idtoken, nil, false)[1]['kid']
 
       # TODO: Use the value of max-age in the Cache-Control header of the response from that endpoint to know when to refresh the public keys.
@@ -41,14 +47,9 @@ class ApplicationController < ActionController::API
           { algorithm: 'RS256',
             :verify_iat => true,
             :verify_aud => true, :aud => aud,
-            :verify_iss => true, :iss => token_issuer })[0]
+            :verify_iss => true, :iss => token_issuer })
 
-      user_params = {}
-      user_params[:provider] = decoded_token['iss']
-      user_params[:uid] = decoded_token['sub']
-      user_params[:email] = decoded_token['email']
-      user_params[:name] = decoded_token['name']
-      user_params[:picture] = decoded_token['picture']
+      user_params = get_user_params_from_decoded_token(decoded_token)
 
       # TODO: do we need this info? this isn't present in decoded token
       # but can be passed from the google info from front end
