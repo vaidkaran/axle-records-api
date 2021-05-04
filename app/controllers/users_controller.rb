@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:create_or_sign_in]
+  skip_before_action :ensure_site_role_present, only: [:create_or_sign_in]
+
   def create_or_sign_in
     # TODO: see if @current_user is accessible here. We might not have to create the current_user method
     user_params = verify_token(create_user_params[:idtoken]) # will set @auth_errors if any
@@ -8,7 +11,7 @@ class UsersController < ApplicationController
         @current_user = user
         head :ok
       else
-        User.create!(create_user_params)
+        User.create!(user_params)
         head :created
       end
     else
