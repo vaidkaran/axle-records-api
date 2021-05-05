@@ -30,10 +30,10 @@ class ApplicationController < ActionController::API
     token_issuer = 'https://securetoken.google.com/axle-records-firebase'
 
     if idtoken.present?
-      # if (rails_env==qa || rails_env==dev) && params[:test_mode]==true
-      #   decoded_info = JWT.decode(idtoken, nil, false)[0]
-      #   return get_user_params_from_decoded_token(decoded_info)
-      # end
+      if (Rails.env.development? || Rails.env.test?) && params[:test_mode]=='true'
+        decoded_token = JWT.decode(idtoken, nil, false)
+        return get_user_params_from_decoded_token(decoded_token)
+      end
       kid = JWT.decode(idtoken, nil, false)[1]['kid']
 
       # TODO: Use the value of max-age in the Cache-Control header of the response from that endpoint to know when to refresh the public keys.
