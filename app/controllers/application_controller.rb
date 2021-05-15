@@ -101,31 +101,31 @@ class ApplicationController < ActionController::API
 
 
   def ensure_site_role_present
-    if current_user.site_roles.empty?
+    if @current_user.site_roles.empty?
       render json: {error: 'Site role missing'}, status: :forbidden
     end
   end
 
   def ensure_site_admin
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :admin))
+    unless(@current_user.site_roles.include? SiteRole.find_by(name: :admin))
       render json: {error: 'Only site admins can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_customer
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :customer))
+    unless(@current_user.site_roles.include? SiteRole.find_by(name: :customer))
       render json: {error: 'Only customers can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_vendor
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :vendor))
+    unless(@current_user.site_roles.include? SiteRole.find_by(name: :vendor))
       render json: {error: 'Only vendors can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_shop_admin(shop_id)
-    is_shop_admin = current_user.vendor_shop_roles.where(shop_id: shop_id)
+    is_shop_admin = @current_user.vendor_shop_roles.where(shop_id: shop_id)
                                               .where(vendor_role_id: VendorRole.find_by(name: :admin).id)
                                               .exists?
     unless(is_shop_admin)
@@ -134,7 +134,7 @@ class ApplicationController < ActionController::API
   end
 
   def ensure_shop_member(shop_id)
-    vendor_for_shop = current_user.vendor_shop_roles.where(shop_id: shop_id)
+    vendor_for_shop = @current_user.vendor_shop_roles.where(shop_id: shop_id)
                                               .exists?
     unless(vendor_for_shop)
       render json: {error: 'Only vendors associated with this shop can perform this operation'}, status: :forbidden
