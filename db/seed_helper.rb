@@ -34,24 +34,7 @@ module SeedHelper
             variants: ['Era', 'Magna', 'Sportz', 'AMT Magna', 'Magna CNG', 'Sportz Dual Tone']
           }
         ],
-      },
-      {
-      brand: 'Hundai',
-        models: [
-          {
-            model: 'i10',
-            variants: ['Era', 'Magna', 'Sportz', 'AMT Magna', 'Magna CNG', 'Sportz Dual Tone']
-          },
-          {
-            model: 'i20',
-            variants: ['Era', 'Magna', 'Sportz', 'AMT Magna', 'Magna CNG', 'Sportz Dual Tone']
-          },
-          {
-            model: 'Venue',
-            variants: ['Era', 'Magna', 'Sportz', 'AMT Magna', 'Magna CNG', 'Sportz Dual Tone']
-          }
-        ],
-      },
+      }
     ]
   end 
 
