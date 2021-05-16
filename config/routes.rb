@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   # user
   post 'users/create_or_sign_in', to: 'users#create_or_sign_in'
 
+  # all vehicle_models
+  get 'all_vehicle_models', to: 'vehicle_models#all_vehicle_models'
+
   resources :vehicle_categories, except: [:destroy]
   resources :vehicle_brands, except: [:destroy] do
     resources :vehicle_models, except: [:destroy], shallow: true do

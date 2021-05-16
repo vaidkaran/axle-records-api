@@ -1,5 +1,17 @@
 class VehicleModelsController < ApplicationController
-  before_action :ensure_site_admin, except: [:index]
+  before_action :ensure_site_admin, except: [:index, :all_models]
+
+  def all_vehicle_models
+    @vehicle_brands = VehicleBrand.all
+    render({
+      json: @vehicle_brands.to_json({
+        only: [:id, :name],
+        include: [vehicle_models: {
+          only: [:id, :name, :vehicle_category_id]
+        }]
+      })
+    })
+  end
 
   def index
     @vehicle_brand = VehicleBrand.find params[:vehicle_brand_id]
