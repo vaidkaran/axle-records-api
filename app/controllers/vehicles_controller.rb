@@ -30,6 +30,14 @@ class VehiclesController < ApplicationController
 
   private
   def vehicle_params
-    params.permit(:name, :vehicle_brand_id, :vehicle_model_id, :vehicle_variant_id)
+    vehicle_variant = VehicleVariant.find(params[:vehicle_variant_id])
+    vehicle_model = vehicle_variant.vehicle_model
+    vehicle_brand = vehicle_model.vehicle_brand
+    return({
+      name: params[:name],
+      vehicle_brand_id: vehicle_brand.id,
+      vehicle_model_id: vehicle_model.id,
+      vehicle_variant_id: vehicle_variant.id
+    })
   end
 end
