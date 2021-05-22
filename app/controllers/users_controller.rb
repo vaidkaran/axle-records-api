@@ -7,11 +7,13 @@ class UsersController < ApplicationController
     if user_params and user_params[:uid]
       user = User.find_by(uid: user_params[:uid])
       if user
-        set_current_user(user)
-        head :ok
+        #set_current_user(user)
+        #head :ok
+        render json: user, status: :ok
       else
-        User.create!(user_params)
-        head :created
+        user = User.create!(user_params)
+        #head :created
+        render json: user, status: :created
       end
     else
       return render_unauthorized_with_msg(@auth_errors)
