@@ -1,4 +1,6 @@
 class UserSiteRolesController < ApplicationController
+  skip_before_action :ensure_site_role_present, only: [:add_role]
+
   def add_role
     site_role = SiteRole.find(params[:site_role_id])
 
