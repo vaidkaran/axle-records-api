@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_204517) do
+ActiveRecord::Schema.define(version: 2021_05_28_083415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,15 +195,11 @@ ActiveRecord::Schema.define(version: 2021_04_30_204517) do
 
   create_table "vehicles", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "vehicle_brand_id"
-    t.bigint "vehicle_model_id"
     t.bigint "vehicle_variant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.index ["user_id"], name: "index_vehicles_on_user_id"
-    t.index ["vehicle_brand_id"], name: "index_vehicles_on_vehicle_brand_id"
-    t.index ["vehicle_model_id"], name: "index_vehicles_on_vehicle_model_id"
     t.index ["vehicle_variant_id"], name: "index_vehicles_on_vehicle_variant_id"
   end
 
@@ -245,8 +241,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_204517) do
   add_foreign_key "vehicle_variants", "transmission_categories"
   add_foreign_key "vehicle_variants", "vehicle_models"
   add_foreign_key "vehicles", "users"
-  add_foreign_key "vehicles", "vehicle_brands"
-  add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_variants"
   add_foreign_key "vendor_shop_roles", "shops"
   add_foreign_key "vendor_shop_roles", "users"

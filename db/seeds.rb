@@ -113,29 +113,21 @@ vehicle_model_length = VehicleModel.all.length
 vehicle_model1 = VehicleModel.all[rand(vehicle_model_length)]
 customer1.vehicles.create!({
   name: vehicle_model1.name,
-  vehicle_brand_id: vehicle_model1.vehicle_brand.id,
-  vehicle_model_id: vehicle_model1.id,
   vehicle_variant_id: vehicle_model1.vehicle_variants.first.id,
 })
 vehicle_model2 = VehicleModel.all[rand(vehicle_model_length)]
 customer1.vehicles.create!({
   name: vehicle_model2.name,
-  vehicle_brand_id: vehicle_model2.vehicle_brand.id,
-  vehicle_model_id: vehicle_model2.id,
   vehicle_variant_id: vehicle_model2.vehicle_variants.first.id,
 })
 vehicle_model3 = VehicleModel.all[rand(vehicle_model_length)]
 customer2.vehicles.create!({
   name: vehicle_model3.name,
-  vehicle_brand_id: vehicle_model3.vehicle_brand.id,
-  vehicle_model_id: vehicle_model3.id,
   vehicle_variant_id: vehicle_model3.vehicle_variants.first.id,
 })
 vehicle_model4 = VehicleModel.all[rand(vehicle_model_length)]
 customer2.vehicles.create!({
   name: vehicle_model4.name,
-  vehicle_brand_id: vehicle_model4.vehicle_brand.id,
-  vehicle_model_id: vehicle_model4.id,
   vehicle_variant_id: vehicle_model4.vehicle_variants.first.id,
 })
 
