@@ -20,6 +20,11 @@ class UserSiteRolesController < ApplicationController
       # no params[:user_id] means you're adding your own site_role
       user = current_user
     end
+
+    if user.site_roles.include? site_role
+      render json: {message: "User is already #{site_role.name}"}, status: :ok
+      return
+    end
     user.site_roles << site_role
     render json: {message: "User added as #{site_role.name}"}, status: :created
   end
