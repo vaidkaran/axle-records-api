@@ -7,12 +7,15 @@ class UsersController < ApplicationController
     if user_params and user_params[:uid]
       user = User.find_by(uid: user_params[:uid])
       if user
-        #set_current_user(user)
-        #head :ok
         render json: user, status: :ok
       else
+        # create a new user in db with site_role
         user = User.create!(user_params)
-        #head :created
+        if(request.headers['appid']=='axle-records-customer')
+          user.site_roles << SiteRole.find_by(name: :customer)
+        elsif(request.headers['appid']=='axle-records-vendor')
+          user.site_roles.create << SiteRole.find_by(name: :vendor)
+        end
         render json: user, status: :created
       end
     else

@@ -3,4 +3,6 @@ class Shop < ApplicationRecord
   has_many :job_profiles, dependent: :destroy
   has_many :spare_part_profiles, dependent: :destroy
   has_many :jobsheets
+
+  belongs_to :users
 end
