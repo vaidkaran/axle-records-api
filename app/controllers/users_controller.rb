@@ -7,16 +7,10 @@ class UsersController < ApplicationController
     if user_params and user_params[:uid]
       user = User.find_by(uid: user_params[:uid])
       if user
-        render json: user, status: :ok
+        render json: user.to_json(include: [:site_roles]), status: :ok
       else
-        # create a new user in db with site_role
         user = User.create!(user_params)
-        if(request.headers['appid']=='axle-records-customer')
-          user.site_roles << SiteRole.find_by(name: :customer)
-        elsif(request.headers['appid']=='axle-records-vendor')
-          user.site_roles.create << SiteRole.find_by(name: :vendor)
-        end
-        render json: user, status: :created
+        render json: user.to_json(include: [:site_roles]), status: :created
       end
     else
       return render_unauthorized_with_msg(@auth_errors)

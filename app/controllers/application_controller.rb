@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate_user!
   before_action :ensure_site_role_present
-  before_action :ensure_appid_present # users_controller#create_or_sign_in relies on this
 
   protected
 
@@ -99,14 +98,6 @@ class ApplicationController < ActionController::API
       return render_unauthorized_with_msg(@auth_errors)
     end
   end
-
-  def ensure_appid_present
-    app_id = request.headers['appid']
-    unless(app_id == 'axle-records-customer' || app_id == 'axle-records-vendor')
-      return render_unauthorized_with_msg('no appid provided')
-    end
-  end
-
 
   def ensure_site_role_present
     if current_user.site_roles.empty?
