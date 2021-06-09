@@ -1,5 +1,5 @@
 class VehicleModelsController < ApplicationController
-  before_action :ensure_site_admin, except: [:index, :all_models]
+  before_action :ensure_site_admin, except: [:index, :all_vehicle_models]
 
   def all_vehicle_models
     @vehicle_brands = VehicleBrand.all
