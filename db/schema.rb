@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_083415) do
+ActiveRecord::Schema.define(version: 2021_06_12_194726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,13 +112,6 @@ ActiveRecord::Schema.define(version: 2021_05_28_083415) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "site_roles_users", id: false, force: :cascade do |t|
-    t.bigint "site_role_id", null: false
-    t.bigint "user_id", null: false
-    t.index ["site_role_id"], name: "index_site_roles_users_on_site_role_id"
-    t.index ["user_id"], name: "index_site_roles_users_on_user_id"
-  end
-
   create_table "spare_part_profiles", force: :cascade do |t|
     t.decimal "price", precision: 7, scale: 2
     t.bigint "shop_id"
@@ -155,7 +148,9 @@ ActiveRecord::Schema.define(version: 2021_05_28_083415) do
     t.string "given_name"
     t.string "family_name"
     t.string "locale"
+    t.bigint "site_role_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["site_role_id"], name: "index_users_on_site_role_id"
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
@@ -235,6 +230,7 @@ ActiveRecord::Schema.define(version: 2021_05_28_083415) do
   add_foreign_key "spare_part_profiles", "shops"
   add_foreign_key "spare_part_profiles", "spare_parts"
   add_foreign_key "spare_part_profiles", "vehicle_variants"
+  add_foreign_key "users", "site_roles"
   add_foreign_key "vehicle_models", "vehicle_brands"
   add_foreign_key "vehicle_models", "vehicle_categories"
   add_foreign_key "vehicle_variants", "fuel_categories"

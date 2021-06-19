@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   # user
   post 'users/create_or_sign_in', to: 'users#create_or_sign_in'
+  get 'users/self', to: 'users#show_self'
+  patch 'users/self/add_site_role', to: 'users#add_site_role'
+  patch 'users/admin/add_site_role', to: 'users#admin_add_site_role'
 
   # all vehicle_models
   get 'all_vehicle_models', to: 'vehicle_models#all_vehicle_models'
@@ -39,14 +42,4 @@ Rails.application.routes.draw do
     patch ':id/update_vendor_role', to: 'shops#update_vendor_role'
     delete ':id/remove_vendor', to: 'shops#remove_vendor'
   end
-
-  get :add_site_role, to: 'user_site_roles#add_role'
-  get :delete_site_role, to: 'user_site_roles#delete_role'
-  get :show_user_roles, to: 'user_site_roles#show_roles'
-
-
-  # TODO: might need to setup something like this for lower envs
-  # if Rails.env.development? || Rails.env.test?
-  #   get :google_sign_in, to: 'auth#google_sign_in'
-  # end
 end

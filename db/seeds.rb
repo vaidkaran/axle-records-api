@@ -32,8 +32,8 @@ admin2 = User.create!(
   email: 'admin2@ar.com',
   picture: 'https://lh6.googleusercontent.com/-iYm0d6moMeM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmRJ4rPrA_8HbgkgcFrM81Ltetdpg/s96-c/photo.jpg'
 )
-admin1.site_roles << admin_role
-admin2.site_roles << admin_role
+admin1.site_role = admin_role
+admin2.site_role = admin_role
 #----------------------------------------------------------------------------------------
 
 # customer users
@@ -51,8 +51,8 @@ customer2 = User.create!(
   email: 'customer2@ar.com',
   picture: 'https://lh6.googleusercontent.com/-iYm0d6moMeM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmRJ4rPrA_8HbgkgcFrM81Ltetdpg/s96-c/photo.jpg'
 )
-customer1.site_roles << customer_role
-customer2.site_roles << customer_role
+customer1.site_role = customer_role
+customer2.site_role = customer_role
 #----------------------------------------------------------------------------------------
 
 # vendor users
@@ -70,8 +70,8 @@ vendor2 = User.create!(
   email: 'vendor2@ar.com',
   picture: 'https://lh6.googleusercontent.com/-iYm0d6moMeM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmRJ4rPrA_8HbgkgcFrM81Ltetdpg/s96-c/photo.jpg'
 )
-vendor1.site_roles << vendor_role
-vendor2.site_roles << vendor_role
+vendor1.site_role = vendor_role
+vendor2.site_role = vendor_role
 #----------------------------------------------------------------------------------------
 
 # vehicle categories
@@ -131,3 +131,18 @@ customer2.vehicles.create!({
   vehicle_variant_id: vehicle_model4.vehicle_variants.first.id,
 })
 
+
+# jobs
+job_names = 'Engine Oil Replacement', 'Oil Filter Replacement', 'Air Filter Cleaning', 'Coolant Top up', 'Wiper Fluid Replacement',
+'Battery Water Top up', 'Heater / Spark Plugs Checking', 'Car Wash', 'Interior Vacuuming', 'Cabin Filter / AC Filter Replacement',
+'Brake Fluid Top up', 'Scanning', 'Rear Brake Shoes Serviced', 'Front Brake Pads Serviced', 'Wheel Alignment', 'Wheel Balancing',
+'Tyre Rotation', 'Throttle Body cleaning', 'Gear Oil Top up'
+
+job_names.each do |job_name|
+  Job.create!(name: job_name, description: job_name)
+end
+
+
+# Vendor roles
+VendorRole.create! name: 'admin'
+VendorRole.create! name: 'technician'

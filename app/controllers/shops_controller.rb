@@ -44,7 +44,7 @@ class ShopsController < ApplicationController
   def add_vendor
     shop_id = params[:id]
     user = User.find(params[:user_id])
-    unless(user.site_roles.include? SiteRole.find_by(name: :vendor))
+    unless(user.site_role = SiteRole.find_by(name: :vendor))
       render json: {error: 'Only vendors can be added to a shop'}, status: :ok
       return
     end

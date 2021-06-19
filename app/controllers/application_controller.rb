@@ -100,25 +100,25 @@ class ApplicationController < ActionController::API
   end
 
   def ensure_site_role_present
-    if current_user.site_roles.empty?
+    unless current_user.site_role
       render json: {error: 'Site role missing'}, status: :forbidden
     end
   end
 
   def ensure_site_admin
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :admin))
+    unless(current_user.site_role == SiteRole.find_by(name: :admin))
       render json: {error: 'Only site admins can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_customer
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :customer))
+    unless(current_user.site_role = SiteRole.find_by(name: :customer))
       render json: {error: 'Only customers can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_vendor
-    unless(current_user.site_roles.include? SiteRole.find_by(name: :vendor))
+    unless(current_user.site_role = SiteRole.find_by(name: :vendor))
       render json: {error: 'Only vendors can perform this operation'}, status: :forbidden
     end
   end
