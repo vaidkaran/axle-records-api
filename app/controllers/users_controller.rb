@@ -8,10 +8,10 @@ class UsersController < ApplicationController
     if user_params and user_params[:uid]
       user = User.find_by(uid: user_params[:uid])
       if user
-        render json: user.to_json(include: [:site_roles]), status: :ok
+        render json: user.to_json(include: [:site_role]), status: :ok
       else
         user = User.create!(user_params)
-        render json: user.to_json(include: [:site_roles]), status: :created
+        render json: user.to_json(include: [:site_role]), status: :created
       end
     else
       return render_unauthorized_with_msg(@auth_errors)
