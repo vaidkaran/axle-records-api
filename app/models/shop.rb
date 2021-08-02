@@ -4,5 +4,7 @@ class Shop < ApplicationRecord
   has_many :spare_part_profiles, dependent: :destroy
   has_many :jobsheets
 
-  belongs_to :users
+  belongs_to :user
+
+  validates_presence_of [:name, :address, :city, :state, :pin, :country]
 end

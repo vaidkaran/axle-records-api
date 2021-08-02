@@ -5,5 +5,6 @@ class User < ApplicationRecord
 
   belongs_to :site_role, optional: true
   has_many :vendor_shop_roles
+  has_many :shops
   has_many :vehicles
 end

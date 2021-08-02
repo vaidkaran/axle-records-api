@@ -1,17 +1,16 @@
 class ShopsController < ApplicationController
-  before_action :ensure_site_admin, only: [:index]
   before_action :ensure_vendor, except: [:index]
   before_action -> {ensure_shop_admin params[:id]},
     only: [:update, :destroy, :add_vendor, :update_vendor_role, :remove_vendor]
   before_action -> {ensure_shop_member params[:id]}, only: [:show, :vendors]
 
   def index
-    @shops = Shop.all
+    @shops = current_user.shops
     render json: @shops, status: :ok
   end
 
   def create
-    @shop = Shop.create! shop_params
+    @shop = current_user.shops.create!(shop_params)
     @vendor_shop_role = VendorShopRole.create!(shop_id: @shop.id,
                                                user_id: current_user.id,
                                                vendor_role_id: VendorRole.find_by(name: :admin).id)
