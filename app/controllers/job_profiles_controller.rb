@@ -8,7 +8,7 @@ class JobProfilesController < ApplicationController
   end
 
   def create
-    unless JobProfile.where(job_profile_params).empty?
+    unless JobProfile.where({shop_id: params[:shop_id], job_id: params[:job_id]}).empty?
       render json: {message: 'Already exists'}, status: :ok
       return
     end
@@ -33,12 +33,14 @@ class JobProfilesController < ApplicationController
 
   private
   def job_profile_search_params
-    params.permit(:shop_id, :job_id, :vehicle_variant_id)
+    # removed :vehicle_variant_id since it's not a part of job_profiles in mvp
+    params.permit(:shop_id, :job_id)
   end
 
+  # removed :vehicle_variant_id since it's not a part of job_profiles in mvp
+  # also removed :estimatedTimeInMins, :estimatedTimeInHrs in mvp
   def job_profile_params
-    params.permit(:shop_id, :job_id, :vehicle_variant_id, :price,
-                  :estimatedTimeInMins, :estimatedTimeInHrs)
+    params.permit(:shop_id, :job_id, :price)
   end
 
   def get_shop_id_in_destroy
