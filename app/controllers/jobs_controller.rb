@@ -27,7 +27,7 @@ class JobsController < ApplicationController
   def update
     # vendor should not be able to update any record with user_defined false
     @job = Job.find params[:id]
-    if @job.update_attributes(job_params)
+    if @job.update_attributes(update_job_params)
       render json: @job, status: :ok
     else
       render json: {error: 'Something went wrong. Could not update job'}, status: :internal_server_error
@@ -38,5 +38,9 @@ class JobsController < ApplicationController
   private
   def job_params
     params.permit(:name, :description, :user_defined)
+  end
+
+  def update_job_params
+    params.permit(:name, :description)
   end
 end
