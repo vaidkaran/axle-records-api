@@ -9,7 +9,7 @@ class JobProfilesController < ApplicationController
 
   def create
     unless JobProfile.where({shop_id: params[:shop_id], job_id: params[:job_id]}).empty?
-      render json: {message: 'Already exists'}, status: :ok
+      render json: {message: 'Already exists'}, status: :conflict
       return
     end
     @job_profile = JobProfile.create!(job_profile_params)

@@ -106,20 +106,26 @@ class ApplicationController < ActionController::API
   end
 
   def ensure_site_admin
-    unless(current_user.site_role == SiteRole.find_by(name: :admin))
+    unless(current_user.is_admin)
       render json: {error: 'Only site admins can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_customer
-    unless(current_user.site_role = SiteRole.find_by(name: :customer))
+    unless(current_user.is_customer)
       render json: {error: 'Only customers can perform this operation'}, status: :forbidden
     end
   end
 
   def ensure_vendor
-    unless(current_user.site_role = SiteRole.find_by(name: :vendor))
+    unless(current_user.is_vendor)
       render json: {error: 'Only vendors can perform this operation'}, status: :forbidden
+    end
+  end
+
+  def ensure_either_vendor_or_site_admin
+    unless(current_user.is_admin || current_user.is_vendor)
+      render json: {error: 'Only vendors or site_admins can perform this operation'}, status: :forbidden
     end
   end
 
