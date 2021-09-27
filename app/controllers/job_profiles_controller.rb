@@ -4,7 +4,9 @@ class JobProfilesController < ApplicationController
 
   def index
     @job_profiles = JobProfile.where(job_profile_search_params)
-    render json: @job_profiles
+    # render json: @job_profiles
+    render json: @job_profiles.to_json({only: [:id, :name, :job_id, :shop_id],
+      include: [{job: {only: [:id, :name, :description, :user_defined]}}]})
   end
 
   def create
