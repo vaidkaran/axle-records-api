@@ -52,6 +52,7 @@ class JobProfilesController < ApplicationController
     unless params[:shop_id]
       render json: {error: 'shop_id not found'}, status: :bad_request
     end
+    return params[:shop_id]
   end
 
   def get_shop_id_from_id
