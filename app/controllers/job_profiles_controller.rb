@@ -20,7 +20,7 @@ class JobProfilesController < ApplicationController
 
   def update
     @job_profile = JobProfile.find params[:id]
-    @job_profile.update_attributes!(job_profile_params)
+    @job_profile.update_attributes!(udpate_job_profile_params)
     render json: @job_profile
   end
 
@@ -43,6 +43,10 @@ class JobProfilesController < ApplicationController
   # also removed :estimatedTimeInMins, :estimatedTimeInHrs in mvp
   def job_profile_params
     params.permit(:shop_id, :job_id, :price)
+  end
+  
+  def udpate_job_profile_params
+    params.permit(:price)
   end
 
   def get_shop_id_in_destroy
